@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <script>
+        // Function to get all tasks
+        async function getTasks() {
+            const response = await fetch('http://localhost:5000/api/tasks');
+            const data = await response.json();
+            document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+        }
+        
+        // Function to create a task
+        async function createTask() {
+            const response = await fetch('http://localhost:5000/api/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: document.getElementById('title').value,
+                    description: document.getElementById('description').value
+                })
+            });
+            const data = await response.json();
+            document.getElementById('results').textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</head>
+<body>
+    <h1>Task Manager API Test</h1>
+    
+    <div>
+        <h2>Create Task</h2>
+        <input id="title" placeholder="Task Title" />
+        <input id="description" placeholder="Description" />
+        <button onclick="createTask()">Create</button>
+    </div>
+    
+    <div>
+        <h2>Get Tasks</h2>
+        <button onclick="getTasks()">Get All Tasks</button>
+    </div>
+    
+    <pre id="results"></pre>
+</body>
+</html>
