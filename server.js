@@ -3,32 +3,31 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-app.use(cors());
-
 // Load environment variables
 dotenv.config();
+
+// Initialize express
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
-// Initialize express
-const app = express();
-
 // Import routes
 const taskRoutes = require('./routes/taskRoutes');
-
-// Mount routes
-app.use('/api/tasks', taskRoutes);
-
-// Middleware for parsing JSON
-app.use(express.json());
 
 // Basic route
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to the Task Manager API' });
 });
+
+// Mount routes
+app.use('/api/tasks', taskRoutes);
 
 // Set port
 const PORT = process.env.PORT || 5000;
