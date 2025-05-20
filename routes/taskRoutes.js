@@ -5,17 +5,23 @@ const {
   getTask, 
   createTask, 
   updateTask, 
-  deleteTask 
+  deleteTask,
+  toggleCompleted
 } = require('../controllers/taskController');
 
-// Routes
+// Routes for /api/tasks
 router.route('/')
   .get(getAllTasks)
   .post(createTask);
 
+// Routes for /api/tasks/:id
 router.route('/:id')
   .get(getTask)
   .put(updateTask)
   .delete(deleteTask);
+
+// New route for toggling completion status
+router.route('/:id/toggle')
+  .patch(toggleCompleted);
 
 module.exports = router;
